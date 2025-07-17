@@ -16,7 +16,13 @@ WORKDIR /var/www/html
 # Copia el proyecto completo
 COPY src /var/www/html
 
-# Asegura que existan todas las carpetas que Laravel va a escribir
+# —> AÑADE ESTO: crea las carpetas de cache/logs y dale permisos a www-data
+RUN mkdir -p /var/www/html/bootstrap/cache \
+    /var/www/html/storage/framework/{cache,sessions,views} \
+    /var/www/html/storage/logs \
+    && chown -R www-data:www-data /var/www/html/bootstrap/cache /var/www/html/storage
+
+# Asegura permisos (ya lo tenías, pero no basta sin las carpetas)
 RUN chmod -R 775 /var/www/html/bootstrap/cache \
     /var/www/html/storage
 

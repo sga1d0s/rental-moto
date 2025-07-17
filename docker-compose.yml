@@ -1,6 +1,6 @@
 
 services:
-  mariadb:
+  rental-moto-mariadb:
     image: mariadb:latest
     restart: always
     env_file:
@@ -17,7 +17,7 @@ services:
     networks:
       - motos_net
 
-  laravel:
+  rental-moto-laravel:
     build:
       context: .
       dockerfile: Dockerfile
@@ -34,9 +34,9 @@ services:
       - motos_net
 
 volumes:
-  mariadb_data:
+  rental-moto-mariadb:
   src:
       
 networks:
-  motos_net:
+  rental-moto-net:
     driver: bridge

@@ -28,8 +28,6 @@ services:
       - rental_moto_mariadb
     ports:
       - "8000:8000"
-    volumes:
-      - src:/var/www/html
     networks:
       - rental_moto_net
 

@@ -34,9 +34,9 @@ services:
       - rental_moto_net
 
 volumes:
-  rental_moto_mariadb:
+  rental_moto_mariadb_data:
   src:
-      
+
 networks:
   rental_moto_net:
     driver: bridge

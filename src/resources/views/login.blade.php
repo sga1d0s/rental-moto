@@ -3,7 +3,7 @@
 @section('title', 'Iniciar sesión')
 
 @section('content')
-  <h1>Login de UsuarioS</h1>
+  <h1>Login de Usuario</h1>
 
   @if(session('error'))
     <div style="color:red; margin-bottom:1rem;">

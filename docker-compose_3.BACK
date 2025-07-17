@@ -1,0 +1,39 @@
+
+services:
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    env_file:
+      - ./stack.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE:       ${DB_DATABASE}
+      MYSQL_USER:           ${DB_USERNAME}
+      MYSQL_PASSWORD:       ${DB_PASSWORD}
+    volumes:
+      - /share/CACHEDEV6_DATA/docker/rental_moto/mariadb_data:/var/lib/mysql
+    # ports:
+    #   - "3306:3306"
+    networks:
+      - rental_motos_net
+
+  laravel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ./stack.env
+    depends_on:
+      - mariadb
+    # ports:
+    #   - "8000:8000"
+    volumes:
+      - /share/CACHEDEV6_DATA/docker/rental_moto/src:/var/www/html
+    networks:
+      - rental_motos_net
+
+networks:
+  rental_motos_net:
+    driver: bridge

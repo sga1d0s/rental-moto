@@ -1,0 +1,42 @@
+
+services:
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    env_file:
+      - ./stack.env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE:       ${DB_DATABASE}
+      MYSQL_USER:           ${DB_USERNAME}
+      MYSQL_PASSWORD:       ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - motos_net
+
+  laravel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ./stack.env
+    depends_on:
+      - mariadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - src:/var/www/html
+    networks:
+      - motos_net
+
+volumes:
+  mariadb_data:
+  src:
+      
+networks:
+  motos_net:
+    driver: bridge

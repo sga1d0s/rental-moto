@@ -1,0 +1,31 @@
+services:
+
+  mariadb:
+    image: mariadb:latest
+    env_file:
+      - ./stack.env
+    volumes:
+      - ./mariadb_data:/var/lib/mysql   # datos en SSD
+    ports:
+      - "3306:3306"
+    networks:
+      - motos_net
+
+  laravel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - ./stack.env
+    volumes:
+      - ./src:/var/www/html             # código en SSD
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mariadb
+    networks:
+      - motos_net
+
+networks:
+  motos_net:
+    driver: bridge

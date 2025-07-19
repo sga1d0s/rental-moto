@@ -15,7 +15,7 @@ class ReservaController extends Controller
     {
         // Cargamos moto y ordenamos por fecha_desde
         $reservas = Reserva::with('moto')
-            ->orderBy('fecha_desde', 'desc')
+            ->orderBy('fecha_desde', 'asc')
             ->get();
 
         return view('reservas.index', compact('reservas'));

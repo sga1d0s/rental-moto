@@ -4,7 +4,13 @@
 
 @section('content')
     <h1 class="mb-4">Reservas</h1>
-    <p><a href="{{ route('reservas.create') }}">➕ Nueva Reserva</a></p>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <a href="{{ route('reservas.create') }}">➕ Nueva Reserva</a>
+        <strong style="color: red;">
+            {{ now()->format('d-m-Y') }}
+        </strong>
+    </div>
 
     <table class="table-auto w-full border-collapse">
         <thead>

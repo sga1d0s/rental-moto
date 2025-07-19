@@ -13,12 +13,19 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        // Cargamos moto y ordenamos por fecha_desde
-        $reservas = Reserva::with('moto')
-            ->orderBy('fecha_desde', 'asc')
+        // Reservas SIN moto asignada
+        $reservasSinMoto = Reserva::with('moto')
+            ->whereNull('moto_id')
+            ->orderBy('fecha_desde')
             ->get();
 
-        return view('reservas.index', compact('reservas'));
+        // Reservas CON moto asignada
+        $reservasConMoto = Reserva::with('moto')
+            ->whereNotNull('moto_id')
+            ->orderBy('fecha_desde')
+            ->get();
+
+        return view('reservas.index', compact('reservasSinMoto', 'reservasConMoto'));
     }
 
     /**

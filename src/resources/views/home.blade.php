@@ -3,7 +3,7 @@
 @section('title', 'Listado de Motos')
 
 @section('content')
-    <h1 class="mb-4">Listado de MotoS</h1>
+    <h1 class="mb-4">Listado de Moto</h1>
     <p><a href="{{ route('motos.create') }}">➕ Añadir Moto</a></p>
 
     <table class="table-auto w-full border-collapse">

@@ -19,6 +19,7 @@
                 <th>
                 <th>Moto</th>
                 <th></th>
+                <th>Desde</th>
                 <th>Hasta</th>
                 </th>
             </tr>
@@ -48,7 +49,23 @@
                             style="display:inline-block; width:12px; height:12px; border-radius:50%; background-color:{{ $color }};"></span>
                     </td>
 
-                    {{-- 3) Fecha de entrega (si existe alguna reserva) --}}
+                    {{-- 3) Fecha de desde (si existe alguna reserva) --}}
+                    <td class="px-4 py-2">
+                        @php
+                            $reserva = $moto->reservas
+                                ->where('fecha_desde', '>=', now()->toDateString())
+                                ->sortBy('fecha_desde')
+                                ->first();
+                        @endphp
+
+                        @if ($reserva)
+                            {{ \Carbon\Carbon::parse($reserva->fecha_desde)->format('d-m') }}
+                        @else
+                            &mdash;
+                        @endif
+                    </td>
+
+                    {{-- 4) Fecha de hasta (si existe alguna reserva) --}}
                     <td class="px-4 py-2">
                         @php
                             $reserva = $moto->reservas

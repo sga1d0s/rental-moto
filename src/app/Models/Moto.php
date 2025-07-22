@@ -11,8 +11,9 @@ class Moto extends Model
         'matricula',
         'kilometros',
         'fecha_itv',
-        'comentarios',
         'status_id',
+        'comentarios',
+        'ubicacion',
     ];
 
     protected $casts = [
@@ -44,9 +45,9 @@ class Moto extends Model
         // 2) Ocupada si hay reserva activa hoy
         if (
             $this->reservas()
-                 ->where('fecha_desde', '<=', $hoy)
-                 ->where('fecha_hasta', '>=', $hoy)
-                 ->exists()
+            ->where('fecha_desde', '<=', $hoy)
+            ->where('fecha_hasta', '>=', $hoy)
+            ->exists()
         ) {
             return 'Ocupada';
         }
@@ -54,8 +55,8 @@ class Moto extends Model
         // 3) Reservada si hay reserva futura (recogida > hoy)
         if (
             $this->reservas()
-                 ->where('fecha_desde', '>', $hoy)
-                 ->exists()
+            ->where('fecha_desde', '>', $hoy)
+            ->exists()
         ) {
             return 'Reservada';
         }

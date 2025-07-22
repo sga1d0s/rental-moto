@@ -16,9 +16,16 @@ class MotoController extends Controller
 
     public function create()
     {
-        return view('motos.create');
-    }
+        // Solo estados permitidos
+        $statuses = Status::whereIn('name', ['Disponible', 'Averiada'])
+            ->get()
+            ->sortBy(function ($status) {
+                return array_search($status->name, ['Disponible', 'Averiada']);
+            })
+            ->pluck('name', 'id');
 
+        return view('motos.create', compact('statuses'));
+    }
     public function store(Request $request)
     {
         $request->validate([
@@ -26,11 +33,20 @@ class MotoController extends Controller
             'matricula'  => 'required|string',
             'kilometros' => 'required|integer',
             'fecha_itv'  => 'required|date',
-            'estado'     => 'required|in:Libre,Ocupada,Reservada,Averiada,Otros',
+            'status_id'  => 'required|exists:statuses,id',
             'comentarios' => 'nullable|string',
+            'ubicacion'   => 'nullable|string',
         ]);
 
-        Moto::create($request->all());
+        Moto::create($request->only([
+            'modelo',
+            'matricula',
+            'kilometros',
+            'fecha_itv',
+            'status_id',
+            'comentarios',
+            'ubicacion',
+        ]));
 
         return redirect()->route('motos.index');
     }
@@ -40,8 +56,14 @@ class MotoController extends Controller
      */
     public function edit(Moto $moto)
     {
-        // Para el <select> de estados
-        $statuses = Status::pluck('name', 'id');
+        // Solo mostrar "Averiada" y "Otros"
+        $statuses = Status::whereIn('name', ['Disponible', 'Averiada'])
+            ->get()
+            ->sortBy(function ($status) {
+                return array_search($status->name, ['Disponible', 'Averiada']);
+            })
+            ->pluck('name', 'id');
+
         return view('motos.edit', compact('moto', 'statuses'));
     }
 
@@ -55,8 +77,10 @@ class MotoController extends Controller
             'matricula'   => 'required|string',
             'kilometros'  => 'required|integer',
             'fecha_itv'   => 'required|date',
-            'comentarios' => 'nullable|string',
             'status_id'   => 'required|exists:statuses,id',
+            'comentarios' => 'nullable|string',
+            'ubicacion'   => 'nullable|string',
+
         ]);
 
         $moto->update($request->only([
@@ -64,8 +88,9 @@ class MotoController extends Controller
             'matricula',
             'kilometros',
             'fecha_itv',
+            'status_id',
             'comentarios',
-            'status_id'
+            'ubicacion',
         ]));
 
         return redirect()->route('motos.index')

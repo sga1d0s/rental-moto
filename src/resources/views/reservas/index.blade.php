@@ -4,41 +4,87 @@
 
 @section('content')
     <h1 class="mb-4">Reservas</h1>
-    <p><a href="{{ route('reservas.create') }}">➕ Nueva Reserva</a></p>
 
-    <table class="table-auto w-full border-collapse">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <a href="{{ route('reservas.create') }}">➕ Nueva Reserva</a>
+        <strong style="color: red;">
+            {{ now()->format('d-m-Y') }}
+        </strong>
+    </div>
+
+    {{-- BLOQUE 1: Reservas SIN moto --}}
+    <h2 class="text-lg font-semibold mt-6 mb-2 text-red-600">🚫 Sin Moto Asignada</h2>
+    <table class="table-auto w-full border-collapse mb-6">
         <thead>
             <tr>
                 <th></th>
-                <th>Cliente / Moto</th>
+                <th>Cliente</th>
                 <th>Desde</th>
                 <th>Hasta</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($reservas as $res)
+            @forelse($reservasSinMoto as $res)
                 <tr>
                     <td>
                         <a href="{{ route('reservas.edit', $res) }}">✏️</a>
                     </td>
-                    <td>
-                        {{-- Nombre del cliente --}}
-                        <div>
-                            {{ $res->cliente ?? '— sin cliente —' }}
-                        </div>
-                        {{-- Modelo de la moto, si existe relación --}}
-                        <div class="text-sm text-gray-600">
-                            {{ $res->moto?->modelo ?? '— sin moto —' }}
-                        </div>
-                    </td>
+                    <td>{{ $res->cliente ?? '— sin cliente —' }}</td>
                     <td>{{ $res->fecha_desde->format('d-m') }}</td>
                     <td>{{ $res->fecha_hasta->format('d-m') }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4">No hay reservas</td>
+                    <td colspan="4">No hay reservas sin moto</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
+
+    {{-- BLOQUE 2: Reservas CON moto --}}
+    <h2 class="text-lg font-semibold mb-2 text-green-600 flex items-center justify-between">
+        🏍️ Con Moto Asignada
+        <button onclick="toggleConMoto()" class="text-sm bg-gray-200 px-2 py-1 rounded">
+            🔽 Mostrar/Ocultar
+        </button>
+    </h2>
+
+    <div id="conMotoBlock">
+        <table class="table-auto w-full border-collapse">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Cliente / Moto</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($reservasConMoto as $res)
+                    <tr>
+                        <td>
+                            <a href="{{ route('reservas.edit', $res) }}">✏️</a>
+                        </td>
+                        <td>
+                            <div>{{ $res->cliente ?? '— sin cliente —' }}</div>
+                            <div class="text-sm text-gray-600">{{ $res->moto?->modelo ?? '' }}</div>
+                        </td>
+                        <td>{{ $res->fecha_desde->format('d-m') }}</td>
+                        <td>{{ $res->fecha_hasta->format('d-m') }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4">No hay reservas con moto</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 @endsection
+
+<script>
+    function toggleConMoto() {
+        const block = document.getElementById('conMotoBlock');
+        block.style.display = block.style.display === 'none' ? 'block' : 'none';
+    }
+</script>

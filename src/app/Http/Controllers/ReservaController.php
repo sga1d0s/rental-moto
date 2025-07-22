@@ -13,12 +13,19 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        // Cargamos moto y ordenamos por fecha_desde
-        $reservas = Reserva::with('moto')
-            ->orderBy('fecha_desde', 'desc')
+        // Reservas SIN moto asignada
+        $reservasSinMoto = Reserva::with('moto')
+            ->whereNull('moto_id')
+            ->orderBy('fecha_desde')
             ->get();
 
-        return view('reservas.index', compact('reservas'));
+        // Reservas CON moto asignada
+        $reservasConMoto = Reserva::with('moto')
+            ->whereNotNull('moto_id')
+            ->orderBy('fecha_desde')
+            ->get();
+
+        return view('reservas.index', compact('reservasSinMoto', 'reservasConMoto'));
     }
 
     /**
@@ -26,11 +33,20 @@ class ReservaController extends Controller
      */
     public function create()
     {
-        // Listado de motos “libres” o “reservables”
-        $motos = Moto::pluck('modelo', 'id');
+        // Obtener IDs de motos actualmente reservadas (con fecha_hasta en el futuro o nula)
+        $motosOcupadas = Reserva::where(function ($q) {
+            $q->whereDate('fecha_hasta', '>=', now()->toDateString())
+                ->orWhereNull('fecha_hasta');
+        })
+            ->whereNotNull('moto_id')
+            ->pluck('moto_id');
+
+        // Motos que NO están en uso
+        $motos = Moto::whereNotIn('id', $motosOcupadas)
+            ->pluck('modelo', 'id');
+
         return view('reservas.create', compact('motos'));
     }
-
     /**
      * Store a newly created resource in storage.
      */

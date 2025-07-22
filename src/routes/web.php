@@ -20,7 +20,7 @@ Route::post('/login', function (Request $request) {
     }
 
     session(['user_id' => $user->id]);
-    return redirect('/');
+    return redirect()->route('home');
 });
 
 Route::post('/logout', function () {
@@ -31,6 +31,8 @@ Route::post('/logout', function () {
 
 // Grupo protegido con middleware personalizado
 Route::middleware('auth.blade')->group(function () {
+
+    Route::get('/', [MotoController::class, 'index'])->name('home');
 
     // Rutas para motos: usa el controlador completo
     Route::resource('motos', MotoController::class)->except(['show']);

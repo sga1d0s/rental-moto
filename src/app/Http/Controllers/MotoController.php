@@ -16,7 +16,14 @@ class MotoController extends Controller
 
     public function create()
     {
-        $statuses = Status::pluck('name', 'id');
+        // Solo estados permitidos
+        $statuses = Status::whereIn('name', ['Disponible', 'Averiada'])
+            ->get()
+            ->sortBy(function ($status) {
+                return array_search($status->name, ['Disponible', 'Averiada']);
+            })
+            ->pluck('name', 'id');
+
         return view('motos.create', compact('statuses'));
     }
     public function store(Request $request)
@@ -49,8 +56,14 @@ class MotoController extends Controller
      */
     public function edit(Moto $moto)
     {
-        // Para el <select> de estados
-        $statuses = Status::pluck('name', 'id');
+        // Solo mostrar "Averiada" y "Otros"
+        $statuses = Status::whereIn('name', ['Disponible', 'Averiada'])
+            ->get()
+            ->sortBy(function ($status) {
+                return array_search($status->name, ['Disponible', 'Averiada']);
+            })
+            ->pluck('name', 'id');
+
         return view('motos.edit', compact('moto', 'statuses'));
     }
 

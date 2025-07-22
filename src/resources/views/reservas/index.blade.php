@@ -24,7 +24,12 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($reservasSinMoto as $res)
+            @php $haySinMoto = false; @endphp
+            @foreach($reservasSinMoto as $res)
+                @if($res->fecha_hasta->lt(now()))
+                    @continue
+                @endif
+                @php $haySinMoto = true; @endphp
                 <tr>
                     <td>
                         <a href="{{ route('reservas.edit', $res) }}">✏️</a>
@@ -33,11 +38,12 @@
                     <td>{{ $res->fecha_desde->format('d-m') }}</td>
                     <td>{{ $res->fecha_hasta->format('d-m') }}</td>
                 </tr>
-            @empty
+            @endforeach
+            @unless($haySinMoto)
                 <tr>
                     <td colspan="4">No hay reservas sin moto</td>
                 </tr>
-            @endforelse
+            @endunless
         </tbody>
     </table>
 
@@ -60,7 +66,12 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($reservasConMoto as $res)
+                @php $hayConMoto = false; @endphp
+                @foreach($reservasConMoto as $res)
+                    @if($res->fecha_hasta->lt(now()))
+                        @continue
+                    @endif
+                    @php $hayConMoto = true; @endphp
                     <tr>
                         <td>
                             <a href="{{ route('reservas.edit', $res) }}">✏️</a>
@@ -72,11 +83,12 @@
                         <td>{{ $res->fecha_desde->format('d-m') }}</td>
                         <td>{{ $res->fecha_hasta->format('d-m') }}</td>
                     </tr>
-                @empty
+                @endforeach
+                @unless($hayConMoto)
                     <tr>
                         <td colspan="4">No hay reservas con moto</td>
                     </tr>
-                @endforelse
+                @endunless
             </tbody>
         </table>
     </div>

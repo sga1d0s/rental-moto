@@ -29,30 +29,13 @@
         </select>
 
         <label for="cliente">Cliente:</label>
-        <input
-            id="cliente"
-            name="cliente"
-            type="text"
-            value="{{ old('cliente') }}"
-        >
+        <input id="cliente" name="cliente" type="text" value="{{ old('cliente') }}">
 
         <label for="fecha_desde">Reserva desde:</label>
-        <input
-            id="fecha_desde"
-            name="fecha_desde"
-            type="date"
-            value="{{ old('fecha_desde') }}"
-            required
-        >
+        <input id="fecha_desde" name="fecha_desde" type="date" value="{{ old('fecha_desde') }}" required>
 
         <label for="fecha_hasta">Reserva hasta:</label>
-        <input
-            id="fecha_hasta"
-            name="fecha_hasta"
-            type="date"
-            value="{{ old('fecha_hasta') }}"
-            required
-        >
+        <input id="fecha_hasta" name="fecha_hasta" type="date" value="{{ old('fecha_hasta') }}" required>
 
         <button type="submit" class="primary">Guardar Reserva</button>
     </form>

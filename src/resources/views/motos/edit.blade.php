@@ -42,6 +42,9 @@
             @endforeach
         </select>
 
+        <label for="ubicacion">Ubicación:</label>
+        <input id="ubicacion" name="ubicacion" value="{{ old('ubicacion', $moto->ubicacion ?? '') }}">
+        
         <label for="comentarios">Comentarios:</label>
         <textarea id="comentarios" name="comentarios">{{ old('comentarios', $moto->comentarios) }}</textarea>
 

@@ -2,10 +2,11 @@
 FROM php:8.2-fpm
 
 # Instala dependencias de Laravel
-RUN apt-get update \
-    && apt-get install -y libzip-dev zip unzip git curl \
-    && docker-php-ext-install pdo pdo_mysql \
-    && rm -rf /var/lib/apt/lists/*
+RUN set -eux; apt-get update; \
+    apt-get install -y --no-install-recommends libzip-dev zip unzip git curl; \
+    docker-php-ext-configure zip; \
+    docker-php-ext-install -j"$(nproc)" zip pdo_mysql; \
+    rm -rf /var/lib/apt/lists/*
 
 # Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

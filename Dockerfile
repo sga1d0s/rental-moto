@@ -32,7 +32,7 @@ WORKDIR /var/www/html
 COPY src /var/www/html
 
 # Copia de dependencias primero para cachear
-COPY composer.json composer.lock ./
+COPY src/composer.json src/composer.lock ./
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader || true
 
 # —> AÑADE ESTO: crea las carpetas de cache/logs y dale permisos a www-data

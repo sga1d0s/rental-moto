@@ -1,20 +1,39 @@
-# Utiliza PHP 8.2 (compatible con tu proyecto Laravel)
-FROM php:8.2-fpm
+# Dockerfile
+FROM php:8.3-fpm-bookworm
 
-# Instala dependencias de Laravel
-RUN apt-get update \
-    && apt-get install -y libzip-dev zip unzip git curl \
-    && docker-php-ext-install pdo pdo_mysql \
-    && rm -rf /var/lib/apt/lists/*
+# Evita prompts de apt
+ARG DEBIAN_FRONTEND=noninteractive
 
-# Instala Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Dependencias de sistema mínimas
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        libzip-dev \
+        unzip \
+        git \
+        curl; \
+    # zip de PHP necesita configurarse antes de compilar
+    docker-php-ext-configure zip; \
+    docker-php-ext-install -j"$(nproc)" \
+        pdo_mysql \
+        zip; \
+    # Limpieza
+    rm -rf /var/lib/apt/lists/*
 
-# Configura el directorio de trabajo
+
+# Composer (sin root warnings)
+ENV COMPOSER_ALLOW_SUPERUSER=1
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Directorio de la app
 WORKDIR /var/www/html
 
 # Copia el proyecto completo
 COPY src /var/www/html
+
+# Copia de dependencias primero para cachear
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader || true
 
 # —> AÑADE ESTO: crea las carpetas de cache/logs y dale permisos a www-data
 RUN mkdir -p /var/www/html/bootstrap/cache \
@@ -25,9 +44,6 @@ RUN mkdir -p /var/www/html/bootstrap/cache \
 # Asegura permisos (ya lo tenías, pero no basta sin las carpetas)
 RUN chmod -R 775 /var/www/html/bootstrap/cache \
     /var/www/html/storage
-
-# Permitir Composer como superusuario
-ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Instala dependencias de Laravel
 RUN composer install --no-interaction --optimize-autoloader --no-dev

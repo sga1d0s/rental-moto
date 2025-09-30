@@ -60,7 +60,7 @@ class MotoController extends Controller
         $statuses = Status::whereIn('name', ['Libre', 'Averiada'])
             ->get()
             ->sortBy(function ($status) {
-                return array_search($status->name, ['DisLibreponible', 'Averiada']);
+                return array_search($status->name, ['Libre', 'Averiada']);
             })
             ->pluck('name', 'id');
 

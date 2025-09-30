@@ -11,6 +11,7 @@ class Reserva extends Model
         'cliente',
         'fecha_desde',
         'fecha_hasta',
+        'comentarios',
         // añade aquí cliente, observaciones…
     ];
 

@@ -20,7 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // forzar conexion segura
-        URL::forceScheme('https');
+        if (app()->environment('production')) {
+            // forzar conexion segura
+            URL::forceScheme('https');
+        }
     }
 }

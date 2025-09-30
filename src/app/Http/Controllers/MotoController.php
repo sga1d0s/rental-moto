@@ -57,10 +57,10 @@ class MotoController extends Controller
     public function edit(Moto $moto)
     {
         // Solo mostrar "Averiada" y "Otros"
-        $statuses = Status::whereIn('name', ['Disponible', 'Averiada'])
+        $statuses = Status::whereIn('name', ['Libre', 'Averiada'])
             ->get()
             ->sortBy(function ($status) {
-                return array_search($status->name, ['Disponible', 'Averiada']);
+                return array_search($status->name, ['DisLibreponible', 'Averiada']);
             })
             ->pluck('name', 'id');
 

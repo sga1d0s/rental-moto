@@ -17,10 +17,10 @@ class MotoController extends Controller
     public function create()
     {
         // Solo estados permitidos
-        $statuses = Status::whereIn('name', ['Disponible', 'Averiada'])
+        $statuses = Status::whereIn('name', ['Libre', 'Averiada'])
             ->get()
             ->sortBy(function ($status) {
-                return array_search($status->name, ['Disponible', 'Averiada']);
+                return array_search($status->name, ['Libre', 'Averiada']);
             })
             ->pluck('name', 'id');
 

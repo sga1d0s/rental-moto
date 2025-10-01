@@ -4,7 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>App Motos - @yield('title')</title>
+
+    <!-- DEVELOP title condition -->
+    @if (app()->environment('production'))
+        <title>App Motos - @yield('title')</title>
+    @else
+        <title>DEVELOP - @yield('title')</title>
+    @endif
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="{{ asset('manifest.json') }}">
@@ -25,25 +31,46 @@
 
     <style>
         /* Básicos */
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f4f4f4;
             color: #333;
         }
+
         .container {
             max-width: 800px;
             margin: auto;
             padding: 1rem;
         }
-        h1, h2 { margin: .5rem 0; }
-        a { color: #007BFF; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+
+        h1,
+        h2 {
+            margin: .5rem 0;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
 
         /* Formulario y botones */
-        form { margin: 1rem 0; }
-        input, select, textarea, button {
+        form {
+            margin: 1rem 0;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
             width: 100%;
             padding: .5rem;
             /* margin-bottom: 1rem; */
@@ -51,9 +78,22 @@
             border-radius: 4px;
             font-size: 1rem;
         }
-        button { cursor: pointer; }
-        button.primary { background: #007BFF; color: #fff; border: none; }
-        button.delete  { background: #dc3545; color: #fff; border: none; }
+
+        button {
+            cursor: pointer;
+        }
+
+        button.primary {
+            background: #007BFF;
+            color: #fff;
+            border: none;
+        }
+
+        button.delete {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+        }
 
         /* Tabla responsive */
         table {
@@ -61,22 +101,39 @@
             border-collapse: collapse;
             margin-bottom: 1rem;
         }
-        th, td {
+
+        th,
+        td {
             padding: .5rem;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         @media (max-width: 300) {
-            table, thead, tbody, th, td, tr { display: block; }
-            tr { margin-bottom: 1rem; }
+
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+
+            tr {
+                margin-bottom: 1rem;
+            }
+
             th {
                 background: #f0f0f0;
                 font-weight: bold;
             }
+
             td {
                 position: relative;
                 padding-left: 50%;
             }
+
             td:before {
                 content: attr(data-label);
                 position: absolute;
@@ -93,6 +150,7 @@
             justify-content: space-around;
             margin-top: 2rem;
         }
+
         a.full-btn {
             display: block;
             width: 48%;
@@ -115,15 +173,19 @@
     @unless (Route::is('login'))
         @include('footer')
     @endunless
-    
+
 
     <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('{{ asset('sw.js') }}')
-                    .then(function(reg) { console.log('Service Worker registered:', reg); })
-                    .catch(function(err) { console.error('Service Worker error:', err); });
+                    .then(function(reg) {
+                        console.log('Service Worker registered:', reg);
+                    })
+                    .catch(function(err) {
+                        console.error('Service Worker error:', err);
+                    });
             });
         }
     </script>
@@ -131,7 +193,7 @@
     <!-- Additional page scripts -->
     @stack('scripts')
 
-    
+
 </body>
 
 </html>

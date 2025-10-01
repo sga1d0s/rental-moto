@@ -47,6 +47,8 @@
         
         <label for="comentarios">Comentarios:</label>
         <textarea id="comentarios" name="comentarios">{{ old('comentarios', $moto->comentarios) }}</textarea>
+        
+        <br><br>
 
         <button type="submit" class="primary">Actualizar Moto</button>
     </form>

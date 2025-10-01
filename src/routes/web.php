@@ -34,8 +34,11 @@ Route::middleware('auth.blade')->group(function () {
 
     Route::get('/', [MotoController::class, 'index'])->name('home');
 
+    // Ruta para el modal (más específica) — declarar ANTES del resource
+    Route::get('/motos/{moto}/partial', [MotoController::class, 'partial'])->name('motos.partial');
+
     // Rutas para motos: usa el controlador completo
-    Route::resource('motos', MotoController::class)->except(['show']);
+    Route::resource('motos', MotoController::class);
 
     // Rutas para reservas: ya usas controller, bien así
     Route::resource('reservas', ReservaController::class)->except(['show'])->names([

@@ -14,6 +14,11 @@ class MotoController extends Controller
         return view('home', compact('motos'));
     }
 
+    public function show(Moto $moto)
+    {
+        return view('motos.show', compact('moto'));
+    }
+
     public function create()
     {
         // Solo estados permitidos
@@ -104,5 +109,13 @@ class MotoController extends Controller
     {
         $moto->delete();
         return redirect()->route('motos.index');
+    }
+
+    /**
+     * Muestra informaciónn para el modal
+     */
+    public function partial(Moto $moto)
+    {
+        return view('motos._moto-info', compact('moto'));
     }
 }

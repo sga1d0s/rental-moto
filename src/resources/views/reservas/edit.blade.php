@@ -60,6 +60,8 @@
             required
         >
 
+        <br><br>
+        
         <button type="submit" class="primary">Actualizar Reserva</button>
     </form>
 

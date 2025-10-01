@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <!-- DEVELOP title condition -->
     @if (app()->environment('production'))
         <title>App Motos - @yield('title')</title>
     @else
-        <title>DEVELOP - @yield('title')</title>
+        <title>DEVELOP</title>
     @endif
 
     <!-- PWA Manifest -->
@@ -28,140 +30,8 @@
 
     <!-- Additional page styles -->
     @stack('styles')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        /* Básicos */
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 1rem;
-        }
-
-        h1,
-        h2 {
-            margin: .5rem 0;
-        }
-
-        a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Formulario y botones */
-        form {
-            margin: 1rem 0;
-        }
-
-        input,
-        select,
-        textarea,
-        button {
-            width: 100%;
-            padding: .5rem;
-            /* margin-bottom: 1rem; */
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        button.primary {
-            background: #007BFF;
-            color: #fff;
-            border: none;
-        }
-
-        button.delete {
-            background: #dc3545;
-            color: #fff;
-            border: none;
-        }
-
-        /* Tabla responsive */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1rem;
-        }
-
-        th,
-        td {
-            padding: .5rem;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        @media (max-width: 300) {
-
-            table,
-            thead,
-            tbody,
-            th,
-            td,
-            tr {
-                display: block;
-            }
-
-            tr {
-                margin-bottom: 1rem;
-            }
-
-            th {
-                background: #f0f0f0;
-                font-weight: bold;
-            }
-
-            td {
-                position: relative;
-                padding-left: 50%;
-            }
-
-            td:before {
-                content: attr(data-label);
-                position: absolute;
-                left: 0;
-                width: 45%;
-                padding-left: .5rem;
-                font-weight: bold;
-            }
-        }
-
-        /* Footer navigation buttons */
-        footer {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 2rem;
-        }
-
-        a.full-btn {
-            display: block;
-            width: 48%;
-            text-align: center;
-            padding: .75rem;
-            background: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-    </style>
 </head>
 
 <body>
@@ -176,24 +46,21 @@
 
 
     <!-- Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('{{ asset('sw.js') }}')
-                    .then(function(reg) {
-                        console.log('Service Worker registered:', reg);
-                    })
-                    .catch(function(err) {
-                        console.error('Service Worker error:', err);
-                    });
-            });
-        }
-    </script>
+    @if (app()->environment('production'))
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('{{ asset('sw.js') }}')
+                        .then(reg => console.log('SW registered:', reg))
+                        .catch(err => console.error('SW error:', err));
+                });
+            }
+        </script>
+    @endif
 
     <!-- Additional page scripts -->
     @stack('scripts')
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

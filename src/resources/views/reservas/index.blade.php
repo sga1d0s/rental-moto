@@ -13,7 +13,7 @@
     </div>
 
     {{-- BLOQUE 1: Reservas SIN moto --}}
-    <h2 class="text-lg font-semibold mt-6 mb-2 text-red-600">🚫 Sin Moto Asignada</h2>
+    <h2 class="text-lg font-semibold mt-6 mb-2 text-red-600">Sin moto asignada</h2>
     <table class="table-auto w-full border-collapse mb-6">
         <thead>
             <tr>
@@ -49,7 +49,7 @@
 
     {{-- BLOQUE 2: Reservas CON moto --}}
     <h2 class="text-lg font-semibold mb-2 text-green-600 flex items-center justify-between">
-        🏍️ Con Moto Asignada
+        Con moto asignada
         <button onclick="toggleConMoto()" class="text-sm bg-gray-200 px-2 py-1 rounded">
             🔽 Mostrar/Ocultar
         </button>

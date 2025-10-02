@@ -3,7 +3,7 @@
 @section('title', 'Listado de Reservas')
 
 @section('content')
-    <h1 class="mb-4">Reservas</h1>
+    <h1 class="mb-4 fw-bold">Reservas</h1>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
         <a href="{{ route('reservas.create') }}">➕ Nueva Reserva</a>
@@ -13,7 +13,7 @@
     </div>
 
     {{-- BLOQUE 1: Reservas SIN moto --}}
-    <h2 class="text-lg font-semibold mt-6 mb-2 text-red-600">Sin moto asignada</h2>
+    <h2 class="text-lg font-semibold mt-6 mb-2 text-danger">Sin moto asignada</h2>
     <table class="table-auto w-full border-collapse mb-6">
         <thead>
             <tr>
@@ -48,10 +48,10 @@
     </table>
 
     {{-- BLOQUE 2: Reservas CON moto --}}
-    <h2 class="text-lg font-semibold mb-2 text-green-600 flex items-center justify-between">
+    <h2 class="text-lg font-semibold mb-2 text-success flex items-center justify-between">
         Con moto asignada
-        <button onclick="toggleConMoto()" class="text-sm bg-gray-200 px-2 py-1 rounded">
-            🔽 Mostrar/Ocultar
+        <button onclick="toggleConMoto()" class="text-sm bg-gray-200 px-2 py-1 rounded col-auto">
+            🔽
         </button>
     </h2>
 

@@ -45,7 +45,7 @@
 
         <label for="comentarios">Comentarios:</label>
         <textarea id="comentarios" name="comentarios">{{ old('comentarios') }}</textarea>
-
+        <br><br>
         <button type="submit" class="primary">Guardar Moto</button>
     </form>
 @endsection

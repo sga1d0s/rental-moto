@@ -128,14 +128,14 @@ td {
 footer {
     display: flex;
     justify-content: space-around;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
 }
 
 a.full-btn {
     display: block;
-    width: 48%;
+    width: 40%;
     text-align: center;
-    padding: .75rem;
+    padding: .5rem;
     background: #007BFF;
     color: #fff;
     text-decoration: none;

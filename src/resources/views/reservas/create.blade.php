@@ -37,6 +37,7 @@
         <label for="fecha_hasta">Reserva hasta:</label>
         <input id="fecha_hasta" name="fecha_hasta" type="date" value="{{ old('fecha_hasta') }}" required>
 
+        <br><br>
         <button type="submit" class="primary">Guardar Reserva</button>
     </form>
 @endsection

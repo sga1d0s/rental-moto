@@ -3,7 +3,7 @@
 @section('title', 'Listado de Motos')
 
 @section('content')
-    <h1 class="mb-4">Listado de Motos</h1>
+    <h1 class="mb-4 fw-bold ">Listado de Motos</h1>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
         <a href="{{ route('motos.create') }}">➕ Añadir Moto</a>
         <strong style="color: red;">
@@ -37,7 +37,7 @@
                     </td>
 
                     {{-- 2) Estado computado con indicador de color --}}
-                    <td class="px-4 py-2">
+                    <td class="">
                         @php
                             $statusColors = [
                                 'Libre' => '#28a745', // verde
@@ -53,7 +53,7 @@
                     </td>
 
                     {{-- 3) Fecha de desde (si existe alguna reserva) --}}
-                    <td class="px-4 py-2">
+                    <td class="">
                         @php
                             $reserva = $moto->reservas
                                 ->where('fecha_desde', '>=', now()->toDateString())
@@ -69,7 +69,7 @@
                     </td>
 
                     {{-- 4) Fecha de hasta (si existe alguna reserva) --}}
-                    <td class="px-4 py-2">
+                    <td class="">
                         @php
                             $reserva = $moto->reservas
                                 ->where('fecha_hasta', '>=', now()->toDateString())

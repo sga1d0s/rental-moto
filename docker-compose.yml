@@ -11,7 +11,7 @@ services:
       MYSQL_USER:           ${DB_USERNAME}
       MYSQL_PASSWORD:       ${DB_PASSWORD}
     ports:
-      - "3306:3306"
+      - "192.168.1.96:3308:3306"
     volumes:
       - rental_moto_mariadb_data:/var/lib/mysql
     networks:
@@ -27,7 +27,7 @@ services:
     depends_on:
       - rental_moto_mariadb
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     networks:
       - rental_moto_net
 

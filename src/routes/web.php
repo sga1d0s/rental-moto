@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\MotoController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\Api\HighScoreController;
 use App\Models\Status;
+
+// Public high-scores endpoint (read-only). Useful for the game UI and quick checks.
+Route::get('/high-scores', [HighScoreController::class, 'index'])->name('high-scores.index');
 
 Route::get('/login', function () {
     return view('login');

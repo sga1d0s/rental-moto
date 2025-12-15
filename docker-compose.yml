@@ -27,7 +27,7 @@ services:
     depends_on:
       - rental_moto_mariadb
     ports:
-      - "127.0.0.1:8000:8000"
+      - "8000:8000"
     networks:
       - rental_moto_net
 

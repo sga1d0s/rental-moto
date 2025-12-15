@@ -32,7 +32,6 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
-
 // Grupo protegido con middleware personalizado
 Route::middleware('auth.blade')->group(function () {
 

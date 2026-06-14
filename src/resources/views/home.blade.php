@@ -6,7 +6,7 @@
 
     <div class="page-header">
         <h1>Motos</h1>
-        <a href="{{ route('motos.create') }}" class="btn-add">＋ Añadir</a>
+        <a href="{{ route('motos.create') }}" class="btn-add"><i class="bi bi-plus-lg"></i> Añadir</a>
     </div>
 
     <div class="card" style="padding:.5rem 1rem;">
@@ -35,7 +35,7 @@
                         $reservaHasta = $moto->reservas->where('fecha_hasta', '>=', now()->toDateString())->sortBy('fecha_hasta')->first();
                     @endphp
                     <tr>
-                        <td><a href="{{ route('motos.edit', $moto) }}" class="edit-link">✏️</a></td>
+                        <td><a href="{{ route('motos.edit', $moto) }}" class="edit-link"><i class="bi bi-pencil"></i></a></td>
                         <td>
                             <a href="#" class="moto-link" style="color:var(--color-text);font-weight:600;"
                                 data-id="{{ $moto->id }}"

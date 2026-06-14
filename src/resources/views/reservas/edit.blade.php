@@ -58,7 +58,7 @@
         onsubmit="return confirm('¿Eliminar esta reserva?')">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn btn-danger">🗑 Eliminar reserva</button>
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash3"></i> Eliminar reserva</button>
     </form>
 
 @endsection

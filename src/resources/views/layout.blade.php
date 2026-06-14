@@ -22,6 +22,7 @@
 
     @stack('styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -29,7 +30,7 @@
     {{-- Top app bar, hidden on login --}}
     @unless (Route::is('login'))
         <header class="app-bar">
-            <span class="app-bar__logo">🏍️</span>
+            <span class="app-bar__logo"><i class="bi bi-scooter"></i></span>
             <span class="app-bar__title">MotoRent</span>
             <span class="app-bar__date">{{ now()->format('d/m/Y') }}</span>
         </header>

@@ -71,7 +71,7 @@
         onsubmit="return confirm('¿Eliminar esta moto?');">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn btn-danger">🗑 Eliminar moto</button>
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash3"></i> Eliminar moto</button>
     </form>
 
 @endsection

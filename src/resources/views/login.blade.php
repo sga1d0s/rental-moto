@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="login-wrap">
-    <div class="login-logo">🏍️</div>
+    <div class="login-logo"><i class="bi bi-scooter"></i></div>
     <div class="login-app-name">MotoRent</div>
 
     <div class="login-card">

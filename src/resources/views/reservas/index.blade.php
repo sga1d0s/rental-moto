@@ -6,7 +6,7 @@
 
     <div class="page-header">
         <h1>Reservas</h1>
-        <a href="{{ route('reservas.create') }}" class="btn-add">＋ Nueva</a>
+        <a href="{{ route('reservas.create') }}" class="btn-add"><i class="bi bi-plus-lg"></i> Nueva</a>
     </div>
 
     {{-- Sin moto asignada --}}
@@ -29,7 +29,7 @@
                     @if($res->fecha_hasta->lt(now())) @continue @endif
                     @php $haySinMoto = true; @endphp
                     <tr>
-                        <td><a href="{{ route('reservas.edit', $res) }}" class="edit-link">✏️</a></td>
+                        <td><a href="{{ route('reservas.edit', $res) }}" class="edit-link"><i class="bi bi-pencil"></i></a></td>
                         <td style="font-weight:600;">{{ $res->cliente ?? '— sin cliente —' }}</td>
                         <td style="color:var(--color-muted);font-size:.85rem;">{{ $res->fecha_desde->format('d-m') }}</td>
                         <td style="color:var(--color-muted);font-size:.85rem;">{{ $res->fecha_hasta->format('d-m') }}</td>
@@ -46,7 +46,7 @@
     <div class="card" style="padding:.75rem 1rem;">
         <div class="section-header">
             <span style="color:var(--color-success);">Con moto asignada</span>
-            <button class="toggle-btn" onclick="toggleConMoto()">🔽</button>
+            <button class="toggle-btn" onclick="toggleConMoto()"><i class="bi bi-chevron-down"></i></button>
         </div>
         <div id="conMotoBlock">
             <table class="moto-table">
@@ -64,7 +64,7 @@
                         @if($res->fecha_hasta->lt(now())) @continue @endif
                         @php $hayConMoto = true; @endphp
                         <tr>
-                            <td><a href="{{ route('reservas.edit', $res) }}" class="edit-link">✏️</a></td>
+                            <td><a href="{{ route('reservas.edit', $res) }}" class="edit-link"><i class="bi bi-pencil"></i></a></td>
                             <td>
                                 <div style="font-weight:600;">{{ $res->cliente ?? '— sin cliente —' }}</div>
                                 <div style="font-size:.8rem;color:var(--color-muted);">{{ $res->moto?->modelo ?? '' }}</div>

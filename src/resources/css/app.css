@@ -362,5 +362,5 @@ textarea { resize: vertical; min-height: 90px; }
 }
 
 .bottom-nav__item--active { color: var(--color-primary); }
-.bottom-nav__icon { font-size: 1.35rem; line-height: 1; }
+.bottom-nav__icon { font-size: 1.35rem; line-height: 1; display: block; }
 .bottom-nav__label { font-size: .65rem; font-weight: 600; letter-spacing: .03em; }

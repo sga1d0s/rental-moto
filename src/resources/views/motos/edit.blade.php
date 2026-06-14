@@ -3,11 +3,14 @@
 @section('title', 'Editar Moto')
 
 @section('content')
-    <h1>Editar Moto nº{{ $moto->id }}</h1>
+
+    <div class="page-header">
+        <h1>Editar Moto <span style="color:var(--color-muted);font-weight:400;">#{{ $moto->id }}</span></h1>
+    </div>
 
     @if ($errors->any())
-        <div style="color:red">
-            <ul>
+        <div class="alert alert-error">
+            <ul style="margin:0;padding-left:1.2rem;">
                 @foreach ($errors->all() as $e)
                     <li>{{ $e }}</li>
                 @endforeach
@@ -15,47 +18,60 @@
         </div>
     @endif
 
-    <form action="{{ route('motos.update', $moto) }}" method="POST">
-        @csrf
-        @method('PUT')
+    <div class="card">
+        <form action="{{ route('motos.update', $moto) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-        <label for="modelo">Modelo:</label>
-        <input id="modelo" name="modelo" value="{{ old('modelo', $moto->modelo) }}" required>
+            <div class="form-group">
+                <label for="modelo">Modelo</label>
+                <input id="modelo" name="modelo" value="{{ old('modelo', $moto->modelo) }}" required>
+            </div>
 
-        <label for="matricula">Matrícula:</label>
-        <input id="matricula" name="matricula" value="{{ old('matricula', $moto->matricula) }}" required>
+            <div class="form-group">
+                <label for="matricula">Matrícula</label>
+                <input id="matricula" name="matricula" value="{{ old('matricula', $moto->matricula) }}" required>
+            </div>
 
-        <label for="kilometros">Kilómetros:</label>
-        <input id="kilometros" name="kilometros" type="number" value="{{ old('kilometros', $moto->kilometros) }}" required>
+            <div class="form-group">
+                <label for="kilometros">Kilómetros</label>
+                <input id="kilometros" name="kilometros" type="number" value="{{ old('kilometros', $moto->kilometros) }}" required>
+            </div>
 
-        <label for="fecha_itv">Fecha ITV:</label>
-        <input id="fecha_itv" name="fecha_itv" type="date"
-            value="{{ old('fecha_itv', $moto->fecha_itv->format('Y-m-d')) }}" required>
+            <div class="form-group">
+                <label for="fecha_itv">Fecha ITV</label>
+                <input id="fecha_itv" name="fecha_itv" type="date"
+                    value="{{ old('fecha_itv', $moto->fecha_itv->format('Y-m-d')) }}" required>
+            </div>
 
-        <label for="status_id">Estado:</label>
-        <select id="status_id" name="status_id" required>
-            @foreach ($statuses as $id => $name)
-                <option value="{{ $id }}"
-                    {{ (int) old('status_id', $moto->status_id) === $id ? 'selected' : '' }}>
-                    {{ $name }}
-                </option>
-            @endforeach
-        </select>
+            <div class="form-group">
+                <label for="status_id">Estado</label>
+                <select id="status_id" name="status_id" required>
+                    @foreach ($statuses as $id => $name)
+                        <option value="{{ $id }}" {{ (int) old('status_id', $moto->status_id) === $id ? 'selected' : '' }}>{{ $name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <label for="ubicacion">Ubicación:</label>
-        <input id="ubicacion" name="ubicacion" value="{{ old('ubicacion', $moto->ubicacion ?? '') }}">
-        
-        <label for="comentarios">Comentarios:</label>
-        <textarea id="comentarios" name="comentarios">{{ old('comentarios', $moto->comentarios) }}</textarea>
-        
-        <br><br>
+            <div class="form-group">
+                <label for="ubicacion">Ubicación</label>
+                <input id="ubicacion" name="ubicacion" value="{{ old('ubicacion', $moto->ubicacion ?? '') }}" placeholder="Ej: Nave principal">
+            </div>
 
-        <button type="submit" class="primary">Actualizar Moto</button>
-    </form>
+            <div class="form-group">
+                <label for="comentarios">Comentarios</label>
+                <textarea id="comentarios" name="comentarios" placeholder="Notas adicionales…">{{ old('comentarios', $moto->comentarios) }}</textarea>
+            </div>
 
-    <form action="{{ route('motos.destroy', $moto) }}" method="POST" onsubmit="return confirm('¿Eliminar esta moto?');">
+            <button type="submit" class="btn btn-primary">Actualizar Moto</button>
+        </form>
+    </div>
+
+    <form action="{{ route('motos.destroy', $moto) }}" method="POST"
+        onsubmit="return confirm('¿Eliminar esta moto?');">
         @csrf
         @method('DELETE')
-        <button type="submit" class="delete">Eliminar Moto</button>
+        <button type="submit" class="btn btn-danger">🗑 Eliminar moto</button>
     </form>
+
 @endsection

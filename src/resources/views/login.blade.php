@@ -1,38 +1,31 @@
 @extends('layout')
 
-@section('title', 'Iniciar sesión')
+@section('title', 'Acceder')
 
 @section('content')
-  <h1>Login de Usuarios</h1>
+<div class="login-wrap">
+    <div class="login-logo">🏍️</div>
+    <div class="login-app-name">MotoRent</div>
 
-  @if(session('error'))
-    <div style="color:red; margin-bottom:1rem;">
-      {{ session('error') }}
+    <div class="login-card">
+        <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;">Iniciar sesión</h2>
+
+        @if(session('error'))
+            <div class="alert alert-error">{{ session('error') }}</div>
+        @endif
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required placeholder="tucorreo@ejemplo.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input id="password" type="password" name="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:.75rem;">Entrar</button>
+        </form>
     </div>
-  @endif
-
-  <form method="POST" action="{{ route('login') }}">
-    @csrf
-
-    <label for="email">Email:</label>
-    <input 
-      id="email" 
-      type="email" 
-      name="email" 
-      value="{{ old('email') }}" 
-      required 
-      placeholder="tucorreo@ejemplo.com"
-    >
-
-    <label for="password">Contraseña:</label>
-    <input 
-      id="password" 
-      type="password" 
-      name="password" 
-      required 
-      placeholder="••••••••"
-    >
-
-    <button type="submit" class="primary">Iniciar sesión</button>
-  </form>
+</div>
 @endsection

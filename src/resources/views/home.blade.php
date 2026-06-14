@@ -3,101 +3,73 @@
 @section('title', 'Listado de Motos')
 
 @section('content')
-    <h1 class="mb-4 fw-bold ">Listado de Motos</h1>
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <a href="{{ route('motos.create') }}">➕ Añadir Moto</a>
-        <strong style="color: red;">
-            {{ now()->format('d-m-Y') }}
-        </strong>
+
+    <div class="page-header">
+        <h1>Motos</h1>
+        <a href="{{ route('motos.create') }}" class="btn-add">＋ Añadir</a>
     </div>
 
-    <table class="table-auto w-full border-collapse">
-        <tbody>
-            <tr>
-                <th></th>
-                <th>Moto</th>
-                <th></th>
-                <th>Desde</th>
-                <th>Hasta</th>
-            </tr>
-            @foreach ($motos as $moto)
-                <tr class="border-t">
-                    {{-- 0) Editar moto --}}
-                    <td>
-                        <a href="{{ route('motos.edit', $moto) }}">✏️</a>
-                    </td>
-
-                    {{-- 1) Nombre de la moto, mostrar info --}}
-                    <td class="px-6 py-2">
-                        <a href="#" class="moto-link" data-id="{{ $moto->id }}"
-                            data-url="{{ route('motos.partial', $moto) }}" data-bs-toggle="modal"
-                            data-bs-target="#motoModal">
-                            {{ $moto->modelo }}
-                        </a>
-                    </td>
-
-                    {{-- 2) Estado computado con indicador de color --}}
-                    <td class="">
-                        @php
-                            $statusColors = [
-                                'Libre' => '#28a745', // verde
-                                'Ocupada' => '#dc3545', // rojo
-                                'Reservada' => '#ffc107', // amarillo
-                                'Averiada' => '#000000', // negro
-                                'Otros' => '#6c757d', // gris
-                            ];
-                            $color = $statusColors[$moto->computed_status] ?? '#6c757d';
-                        @endphp
-                        <span
-                            style="display:inline-block; width:12px; height:12px; border-radius:50%; background-color:{{ $color }};"></span>
-                    </td>
-
-                    {{-- 3) Fecha de desde (si existe alguna reserva) --}}
-                    <td class="">
-                        @php
-                            $reserva = $moto->reservas
-                                ->where('fecha_desde', '>=', now()->toDateString())
-                                ->sortBy('fecha_desde')
-                                ->first();
-                        @endphp
-
-                        @if ($reserva)
-                            {{ \Carbon\Carbon::parse($reserva->fecha_desde)->format('d-m') }}
-                        @else
-                            &mdash;
-                        @endif
-                    </td>
-
-                    {{-- 4) Fecha de hasta (si existe alguna reserva) --}}
-                    <td class="">
-                        @php
-                            $reserva = $moto->reservas
-                                ->where('fecha_hasta', '>=', now()->toDateString())
-                                ->sortBy('fecha_hasta')
-                                ->first();
-                        @endphp
-
-                        @if ($reserva)
-                            {{ \Carbon\Carbon::parse($reserva->fecha_hasta)->format('d-m') }}
-                        @else
-                            &mdash;
-                        @endif
-                    </td>
+    <div class="card" style="padding:.5rem 1rem;">
+        <table class="moto-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Modelo</th>
+                    <th></th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($motos as $moto)
+                    @php
+                        $statusColors = [
+                            'Libre'     => '#22c55e',
+                            'Ocupada'   => '#ef4444',
+                            'Reservada' => '#f59e0b',
+                            'Averiada'  => '#111',
+                            'Otros'     => '#a1a1aa',
+                        ];
+                        $color = $statusColors[$moto->computed_status] ?? '#a1a1aa';
+                        $reservaDesde = $moto->reservas->where('fecha_desde', '>=', now()->toDateString())->sortBy('fecha_desde')->first();
+                        $reservaHasta = $moto->reservas->where('fecha_hasta', '>=', now()->toDateString())->sortBy('fecha_hasta')->first();
+                    @endphp
+                    <tr>
+                        <td><a href="{{ route('motos.edit', $moto) }}" class="edit-link">✏️</a></td>
+                        <td>
+                            <a href="#" class="moto-link" style="color:var(--color-text);font-weight:600;"
+                                data-id="{{ $moto->id }}"
+                                data-url="{{ route('motos.partial', $moto) }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#motoModal">
+                                {{ $moto->modelo }}
+                            </a>
+                        </td>
+                        <td>
+                            <span class="status-dot" style="background:{{ $color }};"></span>
+                        </td>
+                        <td style="color:var(--color-muted);font-size:.85rem;">
+                            {{ $reservaDesde ? \Carbon\Carbon::parse($reservaDesde->fecha_desde)->format('d-m') : '—' }}
+                        </td>
+                        <td style="color:var(--color-muted);font-size:.85rem;">
+                            {{ $reservaHasta ? \Carbon\Carbon::parse($reservaHasta->fecha_hasta)->format('d-m') : '—' }}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
-    <!-- Modal para mostrar detalles de la moto -->
+    <!-- Modal detalles moto -->
     <div class="modal fade" id="motoModal" tabindex="-1" aria-labelledby="motoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="motoModalLabel">Detalles de la Moto</h5>
+            <div class="modal-content" style="border-radius:var(--radius);border:none;box-shadow:var(--shadow);">
+                <div class="modal-header" style="border-bottom:1px solid var(--color-border);">
+                    <h5 class="modal-title" id="motoModalLabel" style="font-weight:700;">Detalles de la moto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <div class="modal-body" id="moto-info">
-                    Cargando...
+                <div class="modal-body" id="moto-info" style="padding:1.25rem;">
+                    Cargando…
                 </div>
             </div>
         </div>
@@ -108,33 +80,14 @@
             document.querySelectorAll('.moto-link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-
-                    const el = e.currentTarget; // always the <a>, not a child text node
+                    const el = e.currentTarget;
                     const url = el.dataset.url || `/motos/${el.dataset.id}/partial`;
-                    const infoContainer = document.getElementById('moto-info');
-
-                    // Estado inicial del modal
-                    infoContainer.textContent = 'Cargando...';
-
-                    fetch(url, {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        })
-                        .then((res) => {
-                            if (!res.ok) {
-                                throw new Error(`Error HTTP ${res.status}`);
-                            }
-                            return res.text();
-                        })
-                        .then((html) => {
-                            infoContainer.innerHTML = html;
-                        })
-                        .catch((err) => {
-                            console.error(err);
-                            infoContainer.textContent =
-                                'No se pudo cargar la información de la moto.';
-                        });
+                    const container = document.getElementById('moto-info');
+                    container.textContent = 'Cargando…';
+                    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                        .then(res => { if (!res.ok) throw new Error(res.status); return res.text(); })
+                        .then(html => { container.innerHTML = html; })
+                        .catch(() => { container.textContent = 'No se pudo cargar la información.'; });
                 });
             });
         });

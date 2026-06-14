@@ -3,11 +3,14 @@
 @section('title', 'Añadir Moto')
 
 @section('content')
-    <h1>➕ Añadir Motos</h1>
+
+    <div class="page-header">
+        <h1>Nueva Moto</h1>
+    </div>
 
     @if ($errors->any())
-        <div style="color:red">
-            <ul>
+        <div class="alert alert-error">
+            <ul style="margin:0;padding-left:1.2rem;">
                 @foreach ($errors->all() as $e)
                     <li>{{ $e }}</li>
                 @endforeach
@@ -15,37 +18,52 @@
         </div>
     @endif
 
-    <form action="{{ route('motos.store') }}" method="POST">
-        @csrf
+    <div class="card">
+        <form action="{{ route('motos.store') }}" method="POST">
+            @csrf
 
-        <label for="modelo">Modelo:</label>
-        <input id="modelo" name="modelo" value="{{ old('modelo') }}" required>
+            <div class="form-group">
+                <label for="modelo">Modelo</label>
+                <input id="modelo" name="modelo" value="{{ old('modelo') }}" required placeholder="Ej: Honda CB500">
+            </div>
 
-        <label for="matricula">Matrícula:</label>
-        <input id="matricula" name="matricula" value="{{ old('matricula') }}" required>
+            <div class="form-group">
+                <label for="matricula">Matrícula</label>
+                <input id="matricula" name="matricula" value="{{ old('matricula') }}" required placeholder="Ej: 1234 ABC">
+            </div>
 
-        <label for="kilometros">Kilómetros:</label>
-        <input id="kilometros" name="kilometros" type="number" value="{{ old('kilometros') }}" required>
+            <div class="form-group">
+                <label for="kilometros">Kilómetros</label>
+                <input id="kilometros" name="kilometros" type="number" value="{{ old('kilometros') }}" required placeholder="0">
+            </div>
 
-        <label for="fecha_itv">Fecha ITV:</label>
-        <input id="fecha_itv" name="fecha_itv" type="date" value="{{ old('fecha_itv') }}" required>
+            <div class="form-group">
+                <label for="fecha_itv">Fecha ITV</label>
+                <input id="fecha_itv" name="fecha_itv" type="date" value="{{ old('fecha_itv') }}" required>
+            </div>
 
-        <label for="status_id">Estado:</label>
-        <select id="status_id" name="status_id" required>
-            <option value="">-- Selecciona un estado --</option>
-            @foreach ($statuses as $id => $name)
-                <option value="{{ $id }}" {{ (int) old('status_id') === $id ? 'selected' : '' }}>
-                    {{ $name }}
-                </option>
-            @endforeach
-        </select>
+            <div class="form-group">
+                <label for="status_id">Estado</label>
+                <select id="status_id" name="status_id" required>
+                    <option value="">— Selecciona un estado —</option>
+                    @foreach ($statuses as $id => $name)
+                        <option value="{{ $id }}" {{ (int) old('status_id') === $id ? 'selected' : '' }}>{{ $name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <label for="ubicacion">Ubicación:</label>
-        <input id="ubicacion" name="ubicacion" value="{{ old('ubicacion') }}">
+            <div class="form-group">
+                <label for="ubicacion">Ubicación</label>
+                <input id="ubicacion" name="ubicacion" value="{{ old('ubicacion') }}" placeholder="Ej: Nave principal">
+            </div>
 
-        <label for="comentarios">Comentarios:</label>
-        <textarea id="comentarios" name="comentarios">{{ old('comentarios') }}</textarea>
-        <br><br>
-        <button type="submit" class="primary">Guardar Moto</button>
-    </form>
+            <div class="form-group">
+                <label for="comentarios">Comentarios</label>
+                <textarea id="comentarios" name="comentarios" placeholder="Notas adicionales…">{{ old('comentarios') }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar Moto</button>
+        </form>
+    </div>
+
 @endsection

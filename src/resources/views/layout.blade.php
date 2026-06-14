@@ -7,45 +7,43 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <!-- DEVELOP title condition -->
     @if (app()->environment('production'))
-        <title>App Motos - @yield('title')</title>
+        <title>MotoRent · @yield('title')</title>
     @else
         <title>DEVELOP</title>
     @endif
 
-    <!-- PWA Manifest -->
     <link rel="manifest" href="{{ asset('manifest.json') }}">
-
-    <!-- Theme & Background Colors -->
-    <meta name="theme-color" content="#007aff">
-    <meta name="background-color" content="#ffffff">
-
-    <!-- Apple PWA Meta Tags -->
+    <meta name="theme-color" content="#111111">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="App Motos">
+    <meta name="apple-mobile-web-app-title" content="MotoRent">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Updated icon path to match public/icons directory -->
     <link rel="apple-touch-icon" sizes="192x192" href="{{ asset('icons/icon-192x192.png') }}">
 
-    <!-- Additional page styles -->
     @stack('styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 
 <body>
-    <div class="container bg-gray-100">
+
+    {{-- Top app bar, hidden on login --}}
+    @unless (Route::is('login'))
+        <header class="app-bar">
+            <span class="app-bar__logo">🏍️</span>
+            <span class="app-bar__title">MotoRent</span>
+            <span class="app-bar__date">{{ now()->format('d/m/Y') }}</span>
+        </header>
+    @endunless
+
+    <div class="container">
         @yield('content')
     </div>
 
-    {{-- Footer with navigation, hidden on login --}}
+    {{-- Bottom nav, hidden on login --}}
     @unless (Route::is('login'))
         @include('footer')
     @endunless
 
-
-    <!-- Service Worker Registration -->
     @if (app()->environment('production'))
         <script>
             if ('serviceWorker' in navigator) {
@@ -58,9 +56,8 @@
         </script>
     @endif
 
-    <!-- Additional page scripts -->
     @stack('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

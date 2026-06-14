@@ -1,102 +1,93 @@
 @extends('layout')
 
-@section('title', 'Listado de Reservas')
+@section('title', 'Reservas')
 
 @section('content')
-    <h1 class="mb-4 fw-bold">Reservas</h1>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <a href="{{ route('reservas.create') }}">➕ Nueva Reserva</a>
-        <strong style="color: red;">
-            {{ now()->format('d-m-Y') }}
-        </strong>
+    <div class="page-header">
+        <h1>Reservas</h1>
+        <a href="{{ route('reservas.create') }}" class="btn-add">＋ Nueva</a>
     </div>
 
-    {{-- BLOQUE 1: Reservas SIN moto --}}
-    <h2 class="text-lg font-semibold mt-6 mb-2 text-danger">Sin moto asignada</h2>
-    <table class="table-auto w-full border-collapse mb-6">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Cliente</th>
-                <th>Desde</th>
-                <th>Hasta</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php $haySinMoto = false; @endphp
-            @foreach($reservasSinMoto as $res)
-                @if($res->fecha_hasta->lt(now()))
-                    @continue
-                @endif
-                @php $haySinMoto = true; @endphp
-                <tr>
-                    <td>
-                        <a href="{{ route('reservas.edit', $res) }}">✏️</a>
-                    </td>
-                    <td>{{ $res->cliente ?? '— sin cliente —' }}</td>
-                    <td>{{ $res->fecha_desde->format('d-m') }}</td>
-                    <td>{{ $res->fecha_hasta->format('d-m') }}</td>
-                </tr>
-            @endforeach
-            @unless($haySinMoto)
-                <tr>
-                    <td colspan="4">No hay reservas sin moto</td>
-                </tr>
-            @endunless
-        </tbody>
-    </table>
-
-    {{-- BLOQUE 2: Reservas CON moto --}}
-    <h2 class="text-lg font-semibold mb-2 text-success flex items-center justify-between">
-        Con moto asignada
-        <button onclick="toggleConMoto()" class="text-sm bg-gray-200 px-2 py-1 rounded col-auto">
-            🔽
-        </button>
-    </h2>
-
-    <div id="conMotoBlock">
-        <table class="table-auto w-full border-collapse">
+    {{-- Sin moto asignada --}}
+    <div class="card" style="padding:.75rem 1rem;">
+        <div class="section-header">
+            <span style="color:var(--color-danger);">Sin moto asignada</span>
+        </div>
+        <table class="moto-table">
             <thead>
                 <tr>
                     <th></th>
-                    <th>Cliente / Moto</th>
+                    <th>Cliente</th>
                     <th>Desde</th>
                     <th>Hasta</th>
                 </tr>
             </thead>
             <tbody>
-                @php $hayConMoto = false; @endphp
-                @foreach($reservasConMoto as $res)
-                    @if($res->fecha_hasta->lt(now()))
-                        @continue
-                    @endif
-                    @php $hayConMoto = true; @endphp
+                @php $haySinMoto = false; @endphp
+                @foreach($reservasSinMoto as $res)
+                    @if($res->fecha_hasta->lt(now())) @continue @endif
+                    @php $haySinMoto = true; @endphp
                     <tr>
-                        <td>
-                            <a href="{{ route('reservas.edit', $res) }}">✏️</a>
-                        </td>
-                        <td>
-                            <div>{{ $res->cliente ?? '— sin cliente —' }}</div>
-                            <div class="text-sm text-gray-600">{{ $res->moto?->modelo ?? '' }}</div>
-                        </td>
-                        <td>{{ $res->fecha_desde->format('d-m') }}</td>
-                        <td>{{ $res->fecha_hasta->format('d-m') }}</td>
+                        <td><a href="{{ route('reservas.edit', $res) }}" class="edit-link">✏️</a></td>
+                        <td style="font-weight:600;">{{ $res->cliente ?? '— sin cliente —' }}</td>
+                        <td style="color:var(--color-muted);font-size:.85rem;">{{ $res->fecha_desde->format('d-m') }}</td>
+                        <td style="color:var(--color-muted);font-size:.85rem;">{{ $res->fecha_hasta->format('d-m') }}</td>
                     </tr>
                 @endforeach
-                @unless($hayConMoto)
-                    <tr>
-                        <td colspan="4">No hay reservas con moto</td>
-                    </tr>
+                @unless($haySinMoto)
+                    <tr><td colspan="4" class="empty-state">Sin reservas pendientes</td></tr>
                 @endunless
             </tbody>
         </table>
     </div>
+
+    {{-- Con moto asignada --}}
+    <div class="card" style="padding:.75rem 1rem;">
+        <div class="section-header">
+            <span style="color:var(--color-success);">Con moto asignada</span>
+            <button class="toggle-btn" onclick="toggleConMoto()">🔽</button>
+        </div>
+        <div id="conMotoBlock">
+            <table class="moto-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Cliente / Moto</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $hayConMoto = false; @endphp
+                    @foreach($reservasConMoto as $res)
+                        @if($res->fecha_hasta->lt(now())) @continue @endif
+                        @php $hayConMoto = true; @endphp
+                        <tr>
+                            <td><a href="{{ route('reservas.edit', $res) }}" class="edit-link">✏️</a></td>
+                            <td>
+                                <div style="font-weight:600;">{{ $res->cliente ?? '— sin cliente —' }}</div>
+                                <div style="font-size:.8rem;color:var(--color-muted);">{{ $res->moto?->modelo ?? '' }}</div>
+                            </td>
+                            <td style="color:var(--color-muted);font-size:.85rem;">{{ $res->fecha_desde->format('d-m') }}</td>
+                            <td style="color:var(--color-muted);font-size:.85rem;">{{ $res->fecha_hasta->format('d-m') }}</td>
+                        </tr>
+                    @endforeach
+                    @unless($hayConMoto)
+                        <tr><td colspan="4" class="empty-state">Sin reservas pendientes</td></tr>
+                    @endunless
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 @endsection
 
+@push('scripts')
 <script>
     function toggleConMoto() {
         const block = document.getElementById('conMotoBlock');
-        block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        block.style.display = block.style.display === 'none' ? '' : 'none';
     }
 </script>
+@endpush

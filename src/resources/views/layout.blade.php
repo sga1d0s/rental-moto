@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @if (app()->environment('production'))
-        <title>MotoRent · @yield('title')</title>
+        <title>RentalMoto · @yield('title')</title>
     @else
         <title>DEVELOP</title>
     @endif
@@ -16,7 +16,7 @@
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <meta name="theme-color" content="#111111">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="MotoRent">
+    <meta name="apple-mobile-web-app-title" content="RentalMoto">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" sizes="192x192" href="{{ asset('icons/icon-192x192.png') }}">
 
@@ -31,7 +31,7 @@
     @unless (Route::is('login'))
         <header class="app-bar">
             <span class="app-bar__logo"><i class="bi bi-scooter"></i></span>
-            <span class="app-bar__title">MotoRent</span>
+            <span class="app-bar__title">RentalMoto</span>
             <span class="app-bar__date">{{ now()->format('d/m/Y') }}</span>
             <form action="{{ route('logout') }}" method="POST" style="margin:0;">
                 @csrf

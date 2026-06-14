@@ -11,7 +11,7 @@ class MotoController extends Controller
     public function index()
     {
         $motos = Moto::all();
-        return view('home', compact('motos'));
+        return view('motos.index', compact('motos'));
     }
 
     public function show(Moto $moto)

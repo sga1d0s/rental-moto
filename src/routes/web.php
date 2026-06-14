@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MotoController;
 use App\Http\Controllers\ReservaController;
 use App\Models\Status;
@@ -32,7 +33,7 @@ Route::post('/logout', function () {
 // Grupo protegido con middleware personalizado
 Route::middleware('auth.blade')->group(function () {
 
-    Route::get('/', [MotoController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 
     // Ruta para el modal (más específica) — declarar ANTES del resource
     Route::get('/motos/{moto}/partial', [MotoController::class, 'partial'])->name('motos.partial');

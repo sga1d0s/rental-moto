@@ -26,6 +26,23 @@ class AvisoController extends Controller
         return redirect()->route('home');
     }
 
+    public function edit(Aviso $aviso)
+    {
+        return view('avisos.edit', compact('aviso'));
+    }
+
+    public function update(Request $request, Aviso $aviso)
+    {
+        $request->validate([
+            'texto'     => 'required|string|max:500',
+            'prioridad' => 'required|in:urgente,general',
+        ]);
+
+        $aviso->update($request->only('texto', 'prioridad'));
+
+        return redirect()->route('home');
+    }
+
     public function desmarcar(Aviso $aviso)
     {
         $aviso->update(['completado' => false]);

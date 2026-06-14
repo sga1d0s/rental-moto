@@ -40,6 +40,8 @@ Route::middleware('auth.blade')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::post('/avisos', [AvisoController::class, 'store'])->name('avisos.store');
+    Route::get('/avisos/{aviso}/edit', [AvisoController::class, 'edit'])->name('avisos.edit');
+    Route::put('/avisos/{aviso}', [AvisoController::class, 'update'])->name('avisos.update');
     Route::patch('/avisos/{aviso}/completar', [AvisoController::class, 'completar'])->name('avisos.completar');
     Route::patch('/avisos/{aviso}/desmarcar', [AvisoController::class, 'desmarcar'])->name('avisos.desmarcar');
     Route::delete('/avisos/{aviso}', [AvisoController::class, 'destroy'])->name('avisos.destroy');

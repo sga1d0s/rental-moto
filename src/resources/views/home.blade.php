@@ -39,6 +39,7 @@
 
     @forelse($urgentes as $aviso)
         <div class="aviso-card aviso-card--urgente">
+            <a href="{{ route('avisos.edit', $aviso) }}" class="aviso-card__edit"><i class="bi bi-pencil"></i></a>
             <div class="aviso-card__text">{{ $aviso->texto }}</div>
             <form action="{{ route('avisos.completar', $aviso) }}" method="POST" style="margin:0;">
                 @csrf @method('PATCH')
@@ -58,6 +59,7 @@
 
     @forelse($generales as $aviso)
         <div class="aviso-card">
+            <a href="{{ route('avisos.edit', $aviso) }}" class="aviso-card__edit"><i class="bi bi-pencil"></i></a>
             <div class="aviso-card__text">{{ $aviso->texto }}</div>
             <form action="{{ route('avisos.completar', $aviso) }}" method="POST" style="margin:0;">
                 @csrf @method('PATCH')
@@ -82,6 +84,7 @@
     <div id="historial-block" style="display:none;">
         @forelse($historial as $aviso)
             <div class="aviso-card aviso-card--done">
+                <a href="{{ route('avisos.edit', $aviso) }}" class="aviso-card__edit"><i class="bi bi-pencil"></i></a>
                 <div class="aviso-card__text">{{ $aviso->texto }}</div>
                 <form action="{{ route('avisos.desmarcar', $aviso) }}" method="POST" style="margin:0;">
                     @csrf @method('PATCH')

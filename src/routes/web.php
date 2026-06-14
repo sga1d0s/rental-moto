@@ -8,7 +8,11 @@ use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MotoController;
 use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\Api\HighScoreController;
 use App\Models\Status;
+
+// Public high-scores endpoint (read-only). Useful for the game UI and quick checks.
+Route::get('/high-scores', [HighScoreController::class, 'index'])->name('high-scores.index');
 
 Route::get('/login', function () {
     return view('login');
@@ -29,7 +33,6 @@ Route::post('/logout', function () {
     session()->forget('user_id');
     return redirect('/login');
 })->name('logout');
-
 
 // Grupo protegido con middleware personalizado
 Route::middleware('auth.blade')->group(function () {

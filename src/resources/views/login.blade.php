@@ -4,7 +4,8 @@
 
 @push('styles')
 <style>
-    body { padding-top: 0; padding-bottom: 0; }
+    html, body { padding: 0; margin: 0; height: 100%; }
+    .container, .container-fluid { max-width: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; }
 </style>
 @endpush
 

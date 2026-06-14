@@ -5,7 +5,7 @@
 @section('content')
 <div class="login-wrap">
     <div class="login-logo"><i class="bi bi-scooter"></i></div>
-    <div class="login-app-name">MotoRent</div>
+    <div class="login-app-name">RentalMoto</div>
 
     <div class="login-card">
         <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:1.25rem;">Iniciar sesión</h2>

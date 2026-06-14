@@ -159,7 +159,7 @@ a:hover { text-decoration: underline; }
 
 /* ── Forms ───────────────────────────────────────────────── */
 .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: .65rem;
 }
 
 .form-group label {
@@ -174,7 +174,7 @@ a:hover { text-decoration: underline; }
 
 input, select, textarea {
     width: 100%;
-    padding: .7rem .9rem;
+    padding: .4rem .7rem;
     border: 1.5px solid var(--color-border);
     border-radius: var(--radius-sm);
     font-size: .95rem;

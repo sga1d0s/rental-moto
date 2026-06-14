@@ -2,6 +2,12 @@
 
 @section('title', 'Acceder')
 
+@push('styles')
+<style>
+    body { padding-top: 0; padding-bottom: 0; }
+</style>
+@endpush
+
 @section('content')
 <div class="login-wrap">
     <div class="login-logo"><i class="bi bi-scooter"></i></div>

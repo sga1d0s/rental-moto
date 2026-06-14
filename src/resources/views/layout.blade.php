@@ -33,6 +33,12 @@
             <span class="app-bar__logo"><i class="bi bi-scooter"></i></span>
             <span class="app-bar__title">MotoRent</span>
             <span class="app-bar__date">{{ now()->format('d/m/Y') }}</span>
+            <form action="{{ route('logout') }}" method="POST" style="margin:0;">
+                @csrf
+                <button type="submit" class="app-bar__logout" title="Cerrar sesión">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
         </header>
     @endunless
 

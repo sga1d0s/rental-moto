@@ -74,6 +74,22 @@ a:hover { text-decoration: underline; }
     font-variant-numeric: tabular-nums;
 }
 
+.app-bar__logout {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,.6);
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: .25rem;
+    margin: 0;
+    width: auto;
+    display: flex;
+    align-items: center;
+    transition: color .15s;
+}
+
+.app-bar__logout:hover { color: #fff; }
+
 /* ── Layout container ────────────────────────────────────── */
 .container {
     max-width: 640px;

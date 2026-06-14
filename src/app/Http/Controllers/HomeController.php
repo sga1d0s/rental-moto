@@ -2,21 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aviso;
+
 class HomeController extends Controller
 {
     public function index()
     {
-        $urgentes = [
-            (object)['id' => 1, 'texto' => 'Revisar frenos de la Honda CB500 antes del jueves'],
-            (object)['id' => 2, 'texto' => 'Llamar al cliente Martínez — reserva sin confirmar'],
-        ];
+        $urgentes   = Aviso::pendientes()->where('prioridad', 'urgente')->latest()->get();
+        $generales  = Aviso::pendientes()->where('prioridad', 'general')->latest()->get();
+        $historial  = Aviso::where('completado', true)->latest()->get();
 
-        $generales = [
-            (object)['id' => 3, 'texto' => 'Pasar ITV a la Yamaha MT-07 este mes'],
-            (object)['id' => 4, 'texto' => 'Reponer aceite en el almacén'],
-            (object)['id' => 5, 'texto' => 'Actualizar tarifas de temporada alta'],
-        ];
-
-        return view('home', compact('urgentes', 'generales'));
+        return view('home', compact('urgentes', 'generales', 'historial'));
     }
 }

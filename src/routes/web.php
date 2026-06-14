@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Controllers\AvisoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MotoController;
 use App\Http\Controllers\ReservaController;
@@ -34,6 +35,11 @@ Route::post('/logout', function () {
 Route::middleware('auth.blade')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
+
+    Route::post('/avisos', [AvisoController::class, 'store'])->name('avisos.store');
+    Route::patch('/avisos/{aviso}/completar', [AvisoController::class, 'completar'])->name('avisos.completar');
+    Route::patch('/avisos/{aviso}/desmarcar', [AvisoController::class, 'desmarcar'])->name('avisos.desmarcar');
+    Route::delete('/avisos/{aviso}', [AvisoController::class, 'destroy'])->name('avisos.destroy');
 
     // Ruta para el modal (más específica) — declarar ANTES del resource
     Route::get('/motos/{moto}/partial', [MotoController::class, 'partial'])->name('motos.partial');

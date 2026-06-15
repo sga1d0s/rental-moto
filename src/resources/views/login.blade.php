@@ -31,7 +31,7 @@
                 <label for="password">Contraseña</label>
                 <input id="password" type="password" name="password" required placeholder="••••••••">
             </div>
-            <button type="submit"  class="btn btn-primary" style="margin-top:.75rem;">Entrar</button>
+            <button type="submit" class="btn btn-primary" style="margin-top:.75rem;">Entrar</button>
         </form>
     </div>
 </div>
